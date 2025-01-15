@@ -58,17 +58,19 @@ if [[ $confirm =~ ^[yY]$ ]]; then
 	if [[ $? -eq 0 ]]; then
         echo -e "${G}Configuration Successfully appended to /etc/samba/smb.conf${E}"
         echo -e "${G}Restart samba service to apply changes${E}"
+        
         read -p "Do you want to restart the samba service now? (y/n):" confirm2
 		if [[ $confirm2 =~ ^[yY]$ ]]; then
 		sudo systemctl restart smbd  
 			if [[ $? -eq 0 ]]; then    
                 echo -e "${G}Successfully restarted the smb server${E}"   
+                else
                 echo -e "${R}Encountered some error. Try manually restarting smb using command:${E} ${O}sudo systemctl restart smbd${E}"
 			fi 
 		fi
 	fi
         elif [[ $confirm =~ ^[nN]$ ]];then
-        echo -e "${O}Skipped${E}"
+        echo -e "${O}Skipped Apeending Configuration${E}"
         else
         echo -e "${R}Invalid input enter ${O}'y'${E} or ${O}'n'${E} ${E}"
 fi
