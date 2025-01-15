@@ -45,7 +45,7 @@ for i in $(seq $first $last); do
     echo -e "guest ok = yes"
     echo -e "valid user = PC$i"
     echo ""
-done > $first-$last-user.txt   # Changed >> to > to overwrite the file before appending later
+done > $first-$last-user.txt   
  
 if [ -e $first-$last-user.txt ]; then
     echo -e "${G}File Created:${E} ${O}$first-$last-user.txt${E}"
@@ -55,21 +55,21 @@ read -p "Do you want to append the created file to the /etc/smb/smb.conf? (y/n):
  
 if [[ $confirm =~ ^[yY]$ ]]; then
     sudo cat $first-$last-user.txt >> /etc/samba/smb.conf
-    if [[ $? -eq 0 ]]; then   # Fixed exit status check
+	if [[ $? -eq 0 ]]; then
         echo -e "${G}Configuration Successfully appended to /etc/samba/smb.conf${E}"
         echo -e "${G}Restart samba service to apply changes${E}"
         read -p "Do you want to restart the samba service now? (y/n):" confirm2
- 
-        if [[ $confirm2 =~ ^[yY]$ ]]; then
-            sudo systemctl restart smbd  # Fixed command for restarting the service
-            if [[ $? -eq 0 ]]; then    # Fixed exit status check
-                echo -e "${G}Successfully restarted the smb server${E}"
-            else
+		if [[ $confirm2 =~ ^[yY]$ ]]; then
+		sudo systemctl restart smbd  
+			if [[ $? -eq 0 ]]; then    
+                echo -e "${G}Successfully restarted the smb server${E}"   
                 echo -e "${R}Encountered some error. Try manually restarting smb using command:${E} ${O}sudo systemctl restart smbd${E}"
-            fi
-    else
-        echo -e "${R}Skipped${E}"
- 
-        fi
-    fi
+			fi 
+		fi
+	fi
+        elif [[ $confirm =~ ^[nN]$ ]];then
+        echo -e "${O}Skipped${E}"
+        else
+        echo -e "${R}Invalid input enter ${O}'y'${E} or ${O}'n'${E} ${E}"
 fi
+
