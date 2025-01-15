@@ -47,4 +47,9 @@ echo -e "read only = no"
 echo -e "guest ok = yes"
 echo -e "valid user = PC$i"
 echo ""
-done
+done >> $first-$last-user.txt
+
+if [ -e $first-$last-user.txt ]
+then 
+echo -e "${G}File Created: $first-$last-user.txt${E}"
+fi
