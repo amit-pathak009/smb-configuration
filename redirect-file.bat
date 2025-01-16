@@ -13,9 +13,6 @@ echo Registry changes applied.
 
 REM Copy the contents of the user's folders to the Z:\ server location
 
-REM Copying Desktop folder
-echo Copying Desktop folder...
-
 REM Copying Documents folder
 echo Copying Documents folder...
 xcopy /E /I /H /Y "%USERPROFILE%\Documents" "Z:\Documents\"
