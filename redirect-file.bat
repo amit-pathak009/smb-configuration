@@ -1,5 +1,28 @@
 @echo off
+
 echo Applying registry changes for User Shell Folders...
+
+set "USERPROFILE_PATH=%USERPROFILE%"
+set "NETWORK_FOLDER=\\Z"
+
+:: Create destination directories if they don't exist
+mkdir "%NETWORK_FOLDER%\Downloads" 2>nul
+mkdir "%NETWORK_FOLDER%\Documents" 2>nul
+mkdir "%NETWORK_FOLDER%\Pictures" 2>nul
+mkdir "%NETWORK_FOLDER%\Videos" 2>nul
+mkdir "%NETWORK_FOLDER%\Music" 2>nul
+
+:: Move local folders to network folder
+echo Moving Downloads...
+move "%USERPROFILE_PATH%\Downloads" "%NETWORK_FOLDER%\Downloads" /y
+echo Moving Documents...
+move "%USERPROFILE_PATH%\Documents" "%NETWORK_FOLDER%\Documents" /y
+echo Moving Pictures...
+move "%USERPROFILE_PATH%\Pictures" "%NETWORK_FOLDER%\Pictures" /y
+echo Moving Videos...
+move "%USERPROFILE_PATH%\Videos" "%NETWORK_FOLDER%\Videos" /y
+echo Moving Music...
+move "%USERPROFILE_PATH%\Music" "%NETWORK_FOLDER%\Music" /y
 
 REM Writing registry entries
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v Desktop /t REG_EXPAND_SZ /d "Z:\Desktop" /f
