@@ -1,0 +1,9 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders]
+"Desktop"="Z:\\Desktop"
+"Documents"="Z:\\Documents"
+"Downloads"="Z:\\Downloads"
+"Pictures"="Z:\\Pictures"
+"Videos"="Z:\\Videos"
+"Music"="Z:\\Music"
