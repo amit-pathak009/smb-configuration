@@ -7,6 +7,11 @@ E='\033[0m'
  
 first=""
 last=""
+
+if [[ $EUID -ne 0 ]]; then
+	echo "This script must be run as root" >&2
+	exit 1
+fi
  
 usage() {
     echo -e "${R}Invalid Arguments${E}"
@@ -43,25 +48,30 @@ fi
 output_file="$first-$last-user.txt"
 
 for i in $(seq $first $last); do
-    echo -e "[PC$i]"
-    echo -e "path = /data/shared/PC$i"
-    echo -e "browsable = yes"
-    echo -e "read only = no"
-    echo -e "guest ok = yes"
-    echo -e "valid user = PC$i"
-    echo ""
+    echo -e "[PC$i]" >> "$output_file"
+    echo -e "path = /data/shared/PC$i" >> "$output_file"
+    echo -e "browsable = yes" >> "$output_file"
+    echo -e "read only = no" >> "$output_file"
+    echo -e "guest ok = yes" >> "$output_file"
+    echo -e "valid user = PC$i" >> "$output_file"
+    echo "" >> "$output_file"
 
     sudo useradd -M -s /sbin/nologin "PC$i"
     echo -e "${G}User PC$i created.${E}"
 
-    echo "PC$i:$password" | sudo chpasswd
+    (echo "$password";echo "$password") | sudo smbpasswd -a "PC$i"
     echo -e "${G}Password for PC$i set to '${password}'${E}"
-
-    sudo mkdir -p "/data/shared/PC$i"
+    
+    sudo mkdir -p "/data/shared/PC$i/Desktop"
+    sudo mkdir -p "/data/shared/PC$i/Downloads"
+    sudo mkdir -p "/data/shared/PC$i/Documents"
+    sudo mkdir -p "/data/shared/PC$i/Pictures"
+    sudo mkdir -p "/data/shared/PC$i/Music"
+    sudo mkdir -p "/data/shared/PC$i/Videos"
     sudo chown "PC$i:PC$i" "/data/shared/PC$i"
     sudo chmod 700 "/data/shared/PC$i"
     echo -e "${G}Directory /data/shared/PC$i configured.${E}"
-done > "$output_file"
+done 
  
 if [[ -e "$output_file" ]]; then
     echo -e "${G}File Created:${E} ${O}$output_file${E}"
