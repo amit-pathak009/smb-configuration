@@ -4,7 +4,7 @@ R='\033[0;31m'
 G='\033[0;32m'
 O='\033[0;33m'
 E='\033[0m'
- 
+
 first=""
 last=""
 
@@ -52,7 +52,7 @@ for i in $(seq $first $last); do
     echo -e "path = /data/shared/PC$i" >> "$output_file"
     echo -e "browsable = yes" >> "$output_file"
     echo -e "read only = no" >> "$output_file"
-    echo -e "guest ok = yes" >> "$output_file"
+    echo -e "guest ok = no" >> "$output_file"
     echo -e "valid user = PC$i" >> "$output_file"
     echo "" >> "$output_file"
 
@@ -68,8 +68,8 @@ for i in $(seq $first $last); do
     sudo mkdir -p "/data/shared/PC$i/Pictures"
     sudo mkdir -p "/data/shared/PC$i/Music"
     sudo mkdir -p "/data/shared/PC$i/Videos"
-    sudo chown "PC$i:PC$i" "/data/shared/PC$i"
-    sudo chmod 700 "/data/shared/PC$i"
+    sudo chmod 775 "/data/shared/PC$i"
+    sudo chown "PC$i:PC$i" "/data/shared/PC$i/*"
     echo -e "${G}Directory /data/shared/PC$i configured.${E}"
 done 
  
