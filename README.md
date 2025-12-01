@@ -1,8 +1,3 @@
-Below is a **complete, production-ready, fully detailed README.md** for the repository
-**`smb-configuration`** — with everything included, polished, structured, and ready to **copy–paste without any changes**.
-
-You can directly paste it into your GitHub repo.
-
 ---
 
 # **README.md**
